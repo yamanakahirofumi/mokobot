@@ -15,13 +15,12 @@ class Scraping4twitter:
         try:
             resultset = session.query(Twitter).filter(Twitter.twitter_id == twitter_id).first()
             if resultset : 
-                result = [ (rs.tweet_id, rs.tweet_body) for rs in resultset.tweets]
+                result = [ {'tweet_id' : rs.tweet_id, 'body' : rs.tweet_body} for rs in resultset.tweets]
             else:
                 result =[]
         except:
             import sys
             print(sys.exc_info())
-            print("ダメぽよ")
         finally:
             session.close()
         return result
@@ -48,15 +47,10 @@ class Scraping4twitter:
                 session.add(tt)
             session.commit()
             tw.since_id = max(ts.tweet_id for ts in tw.tweets) 
-            for row in session.query(Tweet).all():
-                print(row)
-            print('------------------')
-            print(tw)
 
         except:
             import sys
             print(sys.exc_info())
-            print("ダメぽよ")
             session.rollback
         finally:
             session.close()
