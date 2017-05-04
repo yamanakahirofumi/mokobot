@@ -35,7 +35,6 @@ def main():
     api.run(host=conf.properties['server']['host'],
      port=conf.properties['server']['port'])
     instance.run()
-    instance.get('twitter','jenkinsci')
 
 if __name__ == "__main__":
     main()
