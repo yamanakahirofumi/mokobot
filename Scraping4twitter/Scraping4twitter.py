@@ -25,6 +25,19 @@ class Scraping4twitter:
             session.close()
         return result
 
+    def get_tweet_one(self, twitter_id, tweet_id):
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+        result = {}
+        try:
+            resultset = session.query(Tweet).join(Tweet.twitter).filter(Twitter.twitter_id == twitter_id, Tweet.tweet_id == tweet_id).first()
+        except:
+            import sys
+            print(sys.exc_info())
+        finally:
+            session.close()
+        return resultset
+
 
     def run(self,twitter_id):
         Session = sessionmaker(bind=self.engine)
