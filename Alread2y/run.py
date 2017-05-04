@@ -13,20 +13,22 @@ instance = Alread2y(conf)
 
 @api.route("/<cat>/<art>", methods=['POST'])
 def checkArticle(cat,art):
-    instance.get(cat,art)
+    instance.update(cat,art)
     return "", 200
 
 @api.route("/<cat>/<art>", methods=['PUT'])
 def put(cat,art):
-    if not  request.is_json():
+    if not request.is_json:
         return abort(404)
     body = request.get_json()
-    instance.regist(cat, art, body.baseurl)
+    instance.regist(cat, art, body['baseurl'])
+    return "", 200
 
 @api.route("/<cat>/<art>", methods=['GET'])
-def count(cat,art):
-    num = {"count" :instance.read(cat, art)}
-    return jsonify(num)
+def list(cat,art):
+    list = instance.get(cat, art)
+    body = {"list" : list ,"count" : len(list)}
+    return jsonify(body)
 
 
 def main():

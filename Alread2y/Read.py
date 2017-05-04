@@ -14,13 +14,13 @@ class Category(Base):
     def __init__(self, category, name, base_url):
         self.category = category
         self.name = name
-        self.base_url = base_url
+        self.base_url = base_url #http://loacalhost:3001/tweets/{}
 
     def __repr__(self):
-        return "<Category(read)('{}', '{}', '{}')>".format(self.Category, self.name, self.Base_url)
+        return "<Category(read)('{}', '{}', '{}')>".format(self.category, self.name, self.base_url)
 
     def getUrl(self):
-        url = self.base_url + '/'+ self.name
+        url = self.base_url.format(self.name)
         return url
 
 class Article(Base):
