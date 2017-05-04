@@ -19,10 +19,30 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(auth)
 
 
+
 @respond_to('歌手一覧')
 def cheer(message):
     stdout = subprocess.Popen("ls /mnt/m-st/music/", stdout=subprocess.PIPE,shell=True).communicate()[0]
     message.reply(stdout)
+@respond_to('未読')
+def notRead(message):
+    body = requests.get('http://localhost:3001/twitter/jenkinsci')
+    result = json.loads(body.text)
+    global unreadable_list    
+    unreadable_list = result['list']
+    message.reply("未読件数は{}件".format(result['count']))
+
+unreadable_list=[]
+
+@respond_to('次')
+def nextone(message):
+    text='ないよ'
+    global unreadable_list
+    if unreadable_list:
+        res = requests.get('http://localhost:3000/tweet/jenkinsci/{}'.format(unreadable_list[-1]))
+        text = json.loads(res.text)['body']
+        unreadable_list.pop()
+    message.reply(text)
 
 
 @respond_to('jenkins now')
