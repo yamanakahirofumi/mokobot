@@ -18,13 +18,14 @@ def regist(userid):
 
 @api.route("/info/twitter/", methods=['GET'])
 def listup():
-    pass
+    list = instance.list()
+    jsonlist = [ { "userid" : watch.name } for watch in list]
+    return jsonify(jsonlist)
 
 
 def main():
     api.run(host=conf.properties['server']['host'],
      port=conf.properties['server']['port'])
-    instance.run()
 
 if __name__ == "__main__":
     main()

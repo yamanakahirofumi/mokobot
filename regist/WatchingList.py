@@ -4,11 +4,11 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-class Watching(Base):
+class WatchingList(Base):
     __tablename__ = "watchng_user"
     id = Column(Integer, primary_key=True)
     name = Column(String) # @xxxx
-    base_scraping_url = Column(String) 
+    base_scraping_url = Column(String)
     scraping_method = Column(String)
     base_reading_url = Column(String)
     reading_method = Column(String)

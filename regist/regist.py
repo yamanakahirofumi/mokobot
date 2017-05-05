@@ -10,7 +10,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import DBAPIError
 
-from WatchingUser import Base, Watching
+from WatchingList import Base, WatchingList
 
 
 class Regist:
@@ -19,6 +19,7 @@ class Regist:
         session = Session()
         try:
             yield session
+            session.commit()
         except DBAPIError as e:
             print("ErrorMessage:{0}".format(e.args))
             print(format_tb(e.__traceback__))
@@ -27,21 +28,19 @@ class Regist:
 
 
     def regist(self, userid):
-        watching = Watching(userid, 'http://localhost:3000/tweets/{}', 'POST', 'http://localhost:3001/twitter/{}', 'POST')
+        watching = WatchingList(userid, 'http://localhost:3000/tweets/{}', 'POST', 'http://localhost:3001/twitter/{}', 'POST')
         with self.sessionmanager(self.Session) as session:
-            arts = session.add(watching)
-        payload = {"baseurl" : watching.base_scraping_url }
-        res = requests.post(watching.getScrapingUrl())
+            session.add(watching)
+            payload = {"baseurl" : watching.base_scraping_url }
+            res = requests.post(watching.getScrapingUrl())
         
-        res2 = requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
+            res2 = requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
         return ''
     
     def list(self):
-        return num
-
-    def run(self):
-        pass
-        # cat = Category('twitter', 'jenkinsci', '')
+        with self.sessionmanager(self.Session) as session:
+           watchlist = session.query(WatchingList).all()
+        return watchlist
 
     def __init__(self, conf):
         self.engine = create_engine(conf.properties['db']['Urls'], echo=True)
