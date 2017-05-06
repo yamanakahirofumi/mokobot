@@ -11,7 +11,7 @@ from settings import SettingManager
 
 api = Flask(__name__)
 api.config['JSON_AS_ASCII'] = False
-instance
+instance = {}
 
 @api.route('/tweets/<twitter_id>')
 def get_tweets(twitter_id):
