@@ -18,8 +18,8 @@ def regist(userid):
 
 @api.route("/info/twitter/", methods=['GET'])
 def listup():
-    list = instance.list()
-    jsonlist = [ { "userid" : watch.name } for watch in list]
+    resultList = instance.list()
+    jsonlist = [ { "userid" : watch.name } for watch in resultList]
     return jsonify(jsonlist)
 
 

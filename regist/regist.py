@@ -6,7 +6,7 @@ from contextlib import contextmanager
 import requests
 import json
 
-from sqlalchemy import create_engine, func
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import DBAPIError
 
@@ -14,8 +14,9 @@ from WatchingList import Base, WatchingList
 
 
 class Regist:
+    @staticmethod
     @contextmanager
-    def sessionmanager(self, Session):
+    def sessionmanager(Session):
         session = Session()
         try:
             yield session
