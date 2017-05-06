@@ -34,7 +34,7 @@ class Regist:
             session.add(watching)
             payload = {"baseurl" : watching.base_scraping_url }
             res = requests.post(watching.getScrapingUrl())
-        
+
             res2 = requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
         return ''
     
