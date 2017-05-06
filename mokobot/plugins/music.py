@@ -20,10 +20,6 @@ api = tweepy.API(auth)
 
 
 
-@respond_to('歌手一覧')
-def cheer(message):
-    stdout = subprocess.Popen("ls /mnt/m-st/music/", stdout=subprocess.PIPE,shell=True).communicate()[0]
-    message.reply(stdout)
 @respond_to('未読')
 def notRead(message):
     body = requests.get('http://localhost:3001/twitter/jenkinsci')
@@ -40,7 +36,7 @@ def nextone(message):
     global unreadable_list
     if unreadable_list:
         res = requests.get('http://localhost:3000/tweet/jenkinsci/{}'.format(unreadable_list[-1]))
-        text = json.loads(res.text)['body']
+        text = json.loads(res.text, 'utf-8')['body']
         unreadable_list.pop()
     message.reply(text)
 
