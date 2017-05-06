@@ -42,8 +42,8 @@ class Scraping4twitter(LogicBase):
                 tt = Tweet(status.id , status.text)
                 tt.twitter = tw
                 session.add(tt)
-            tw.since_id = max(ts.tweet_id for ts in tw.tweets) 
- 
+            tw.since_id = max(ts.tweet_id for ts in tw.tweets)
+
     def __init__(self, conf):
         super().__init__(conf)
         Base.metadata.create_all(self.engine)
