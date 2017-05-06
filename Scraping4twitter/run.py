@@ -3,9 +3,15 @@
 from Scraping4twitter import Scraping4twitter
 
 from flask import Flask, jsonify
+
+import sys,os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../util')
+
+from settings import SettingManager
+
 api = Flask(__name__)
 api.config['JSON_AS_ASCII'] = False
-instance = Scraping4twitter()
+
 
 @api.route('/tweets/<twitter_id>')
 def get_tweets(twitter_id):
@@ -14,8 +20,6 @@ def get_tweets(twitter_id):
 @api.route('/tweet/<twitter_id>/<tweet_id>')
 def get_tweet_one(twitter_id, tweet_id):
     result = instance.get_tweet_one(twitter_id, tweet_id)
-    if result:
-        result = {'tweet_id' : result.tweet_id, 'body' : result.tweet_body}
     return jsonify(result)
 
 
@@ -26,7 +30,11 @@ def save_tweets(twitter_id):
 
 
 def main():
-    api.run(host='0.0.0.0', port=3000)
+    global instance
+    conf = SettingManager()
+    instance = Scraping4twitter(conf)
+    api.run(host=conf.properties['server']['host'],
+     port=conf.properties['server']['port'])
 
 if __name__ == '__main__':
     main()
