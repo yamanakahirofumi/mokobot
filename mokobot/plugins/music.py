@@ -1,7 +1,6 @@
 
 from settings import SettingManager
 from slackbot.bot import respond_to
-import subprocess
 
 import tweepy
 
