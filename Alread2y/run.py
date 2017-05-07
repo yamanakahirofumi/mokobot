@@ -27,8 +27,8 @@ def regist(cat,art):
 
 @api.route("/<cat>/<art>", methods=['GET'])
 def listup(cat,art):
-    list = instance.get(cat, art)
-    body = {"list" : list ,"count" : len(list)}
+    resultlist = instance.get(cat, art)
+    body = {"list" : resultlist ,"count" : len(resultlist)}
     return jsonify(body)
 
 
