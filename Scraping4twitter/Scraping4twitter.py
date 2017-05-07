@@ -8,7 +8,7 @@ from LogicBase import LogicBase
 import tweepy
 
 class Scraping4twitter(LogicBase):
-    
+
     def get_tweets(self, twitter_id):
         with self.sessionmanager(self.Session) as session:
             result = []
