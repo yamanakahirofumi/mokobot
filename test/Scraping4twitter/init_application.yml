@@ -1,0 +1,10 @@
+server:
+  host: 0.0.0.0
+  port: 3000
+db:
+  Urls: sqlite:///db.sqlite3
+twitter:
+  CONSUMER_KEY: _CONSUMER_KEY
+  CONSUMER_SECRET: _CONSUMER_SECRET
+  ACCESS_TOKEN: _ACCESS_TOKEN
+  ACCESS_SECRET: _ACCESS_SECRET
