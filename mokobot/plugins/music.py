@@ -8,6 +8,7 @@ import tweepy
 import sys,os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../util')
 from settings import SettingManager
+settings = SettingManager()
 
 CONSUMER_KEY = settings.properties['twitter']['CONSUMER_KEY']
 CONSUMER_SECRET = settings.properties['twitter']['CONSUMER_SECRET']
