@@ -1,6 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey, create_engine
-from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 

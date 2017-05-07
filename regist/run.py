@@ -5,7 +5,7 @@ import sys,os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../util')
 from settings import SettingManager
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify
 api = Flask(__name__)
 api.config['JSON_AS_ASCII'] = False
 
@@ -18,7 +18,7 @@ def regist(userid):
 
 @api.route("/info/twitter/", methods=['GET'])
 def listup():
-    resultList = instance.list()
+    resultList = instance.listup()
     jsonlist = [ { "userid" : watch.name } for watch in resultList]
     return jsonify(jsonlist)
 

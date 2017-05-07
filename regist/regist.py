@@ -27,18 +27,17 @@ class Regist:
         finally:
             session.close()
 
-
     def regist(self, userid):
         watching = WatchingList(userid, 'http://localhost:3000/tweets/{}', 'POST', 'http://localhost:3001/twitter/{}', 'POST')
         with self.sessionmanager(self.Session) as session:
             session.add(watching)
-            payload = {"baseurl" : watching.base_scraping_url }
-            res = requests.post(watching.getScrapingUrl())
 
-            res2 = requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
+            payload = {"baseurl" : watching.base_scraping_url }
+            requests.post(watching.getScrapingUrl())
+            requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
         return ''
-    
-    def list(self):
+
+    def listup(self):
         with self.sessionmanager(self.Session) as session:
            watchlist = session.query(WatchingList).all()
         return watchlist
