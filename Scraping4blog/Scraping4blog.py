@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-from sqlalchemy import Table, Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
 
 import sys,os
