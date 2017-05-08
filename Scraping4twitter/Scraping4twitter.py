@@ -21,7 +21,7 @@ class Scraping4twitter(LogicBase):
         with self.sessionmanager(self.Session) as session:
              resultset = session.query(Tweet).join(Tweet.twitter).filter(Twitter.twitter_id == twitter_id, Tweet.tweet_id == tweet_id).first()
              if resultset :
-                result = [ {'tweet_id' : resultset.tweet_id, 'body' : resultset.tweet_body} ]
+                result = {'tweet_id' : resultset.tweet_id, 'body' : resultset.tweet_body}
         return result
 
 
