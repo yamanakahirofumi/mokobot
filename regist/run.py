@@ -11,15 +11,14 @@ api.config['JSON_AS_ASCII'] = False
 
 instance = {}
 
-@api.route("/info/twitter/<userid>", methods=['POST'])
-def regist(userid):
-    instance.regist(userid)
+@api.route("/info/twitter/<category>/<userid>", methods=['POST'])
+def regist(category, userid):
+    instance.regist(category, userid)
     return "", 200
 
-@api.route("/info/twitter/", methods=['GET'])
-def listup():
-    resultList = instance.listup()
-    jsonlist = [ { "userid" : watch.name } for watch in resultList]
+@api.route("/info/twitter/<category>", methods=['GET'])
+def listup(category):
+    jsonlist = instance.listup(category)
     return jsonify(jsonlist)
 
 

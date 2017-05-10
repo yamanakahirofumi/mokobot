@@ -1,7 +1,20 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey, create_engine
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
+
+class Category(Base):
+    __tablename__ = "category_watching"
+    id = Column(Integer, primary_key=True)
+    category = Column(String) # music, ci etc
+
+    def __init__(self, category):
+        self.category = category
+
+    def __repr__(self):
+        return "<Category(watching)('{}')>".format(self.category)
+
 
 class WatchingList(Base):
     __tablename__ = "watchng_user"
@@ -11,6 +24,8 @@ class WatchingList(Base):
     scraping_method = Column(String)
     base_reading_url = Column(String)
     reading_method = Column(String)
+    category_id = Column(Integer, ForeignKey('category_watching.id'))
+    category = relationship('Category', backref='watchinglist')
 
     def __init__(self, name, base_scraping_url, scraping_method, base_reading_url, reading_method):
         self.name = name

@@ -1,49 +1,47 @@
 # -*- coding: utf-8 -*-
 
-from traceback import format_tb
-from contextlib import contextmanager
-
 import requests
 import json
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import DBAPIError
+import sys,os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../util')
 
-from WatchingList import Base, WatchingList
+from LogicBase import LogicBase
+
+from WatchingList import Base, WatchingList, Category
 
 
-class Regist:
-    @staticmethod
-    @contextmanager
-    def sessionmanager(Session):
-        session = Session()
-        try:
-            yield session
-            session.commit()
-        except DBAPIError as e:
-            print("ErrorMessage:{0}".format(e.args))
-            print(format_tb(e.__traceback__))
-        finally:
-            session.close()
+class Regist(LogicBase):
 
-    def regist(self, userid):
-        watching = WatchingList(userid, 'http://localhost:3000/tweets/{}', 'POST', 'http://localhost:3001/twitter/{}', 'POST')
+    def regist(self, category, userid):
         with self.sessionmanager(self.Session) as session:
-            session.add(watching)
-
-            payload = {"baseurl" : watching.base_scraping_url }
-            requests.post(watching.getScrapingUrl())
-            requests.post(watching.getReadingUrl(), data=json.dumps(payload) )
+            cat = session.query(Category).filter(Category.category == category).first()
+            if not cat:
+                cat = Category(category)
+                session.add(cat)
+            watching = session.query(WatchingList).join(WatchingList.category)\
+                                .filter(Category.category == category, WatchingList.name == userid).first()
+            if not watching:
+                watching = WatchingList(userid,
+                                        'http://localhost:3000/tweets/{}',
+                                        'POST',
+                                        'http://localhost:3001/twitter/{}',
+                                        'POST')
+                watching.category = cat
+                payload = {"baseurl" : watching.base_scraping_url }
+                requests.post(watching.getScrapingUrl())
+                requests.post(watching.getReadingUrl(),
+                    json=payload)
         return ''
 
-    def listup(self):
+    def listup(self, category):
         with self.sessionmanager(self.Session) as session:
-           watchlist = session.query(WatchingList).all()
+           watchlist = session.query(WatchingList).join(WatchingList.category)\
+                                .filter(Category.category == category).all()
+           watchlist = [ {"userid" : w.name} for w in watchlist]
         return watchlist
 
     def __init__(self, conf):
-        self.engine = create_engine(conf.properties['db']['Urls'], echo=True)
+        super().__init__(conf)
         Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind=self.engine)
 
