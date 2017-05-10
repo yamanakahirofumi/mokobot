@@ -20,6 +20,7 @@ class Scraping4twitter(LogicBase):
     def get_tweet_one(self, twitter_id, tweet_id):
         with self.sessionmanager(self.Session) as session:
              resultset = session.query(Tweet).join(Tweet.twitter).filter(Twitter.twitter_id == twitter_id, Tweet.tweet_id == tweet_id).first()
+             result = {}
              if resultset :
                 result = {'tweet_id' : resultset.tweet_id, 'body' : resultset.tweet_body}
         return result
