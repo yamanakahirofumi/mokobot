@@ -22,7 +22,7 @@ class Twitter(Base):
 class Tweet(Base):
     __tablename__ = "tweet"
     id = Column(Integer, primary_key=True)
-    tweet_id = Column(String)
+    tweet_id = Column(Integer)
     tweet_body = Column(Text)
     twitter_class_id = Column(Integer, ForeignKey('twitter.id'))
     twitter = relationship('Twitter', backref='tweets')
