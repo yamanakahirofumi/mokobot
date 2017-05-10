@@ -17,7 +17,7 @@ def checkArticle(cat,art):
     instance.update(cat,art)
     return "", 200
 
-@api.route("/<cat>/<art>", methods=['POST'])0
+@api.route("/<cat>/<art>", methods=['POST'])
 def regist(cat,art):
     if not request.is_json:
         return abort(404)
