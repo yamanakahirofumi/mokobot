@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import json
 
 import sys,os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../util')
